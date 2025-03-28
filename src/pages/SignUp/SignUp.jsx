@@ -17,17 +17,17 @@ const Signup = () => {
     e.preventDefault();
 
     if (!name) {
-      setError("Vui lòng nhập tên");
+      setError("Name is required");
       return;
     }
 
     if (!validateEmail(email)) {
-      setError("Sai định dạng Email");
+      setError("Error email format");
       return;
     }
 
     if (!password) {
-      setError("Vui lòng nhập mật khẩu");
+      setError("Password is required");
       return;
     }
 

@@ -29,7 +29,7 @@ const Home = () => {
   // get user info
   const getUserInfo = async () => {
     try {
-      const response = await axiosInstance.get("/get-user")
+      const response = await axiosInstance.get("/api/auth/get-user")
       if (response.data && response.data.user) {
         setUserInfo(response.data.user);
       }
@@ -44,7 +44,7 @@ const Home = () => {
   // get all note
   const getAllNotes = async () => {
     try {
-      const response = await axiosInstance.get('get-all-notes');
+      const response = await axiosInstance.get('/api/note/get-all-notes');
       if (response.data && response.data.notes) {
         setAllNotes(response.data.notes)
       }
@@ -62,7 +62,7 @@ const Home = () => {
   const deleteNote = async (data) => {
     const noteId = data._id;
     try {
-      const response = await axiosInstance.delete("/delete-note/" + noteId)
+      const response = await axiosInstance.delete("/api/note/delete-note/" + noteId)
       if (response.data && !response.data.error) {
         showToastMessage("Note Delete Successfully", 'delete')
         getAllNotes();
@@ -76,8 +76,14 @@ const Home = () => {
 
   // Search
   const onSearchNote = async (query) => {
+    console.log("query", query)
+    if (query === "") {
+      console.log("abc")
+      getAllNotes();
+    }
+
     try {
-      const response = await axiosInstance.get("/search-notes", {
+      const response = await axiosInstance.get("/api/note/search-notes", {
         params: { query },
       });
 
@@ -87,7 +93,7 @@ const Home = () => {
         setIsSearch(true)
         console.log("all Note first ", allNotes);
 
-        setAllNotes(response.data.notes)
+        setAllNotes([response.data.notes])
         console.log("all Note last ", allNotes);
       }
     } catch (e) {
